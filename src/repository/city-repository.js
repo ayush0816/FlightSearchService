@@ -1,3 +1,4 @@
+const { getAll } = require("../controllers/city-controller");
 const {City} = require("../models/index");
 
 class CityRepository{
@@ -27,7 +28,7 @@ class CityRepository{
 
     async updateCity(cityId,data){
         try {
-            // const city = City.update(data , {
+            // const city = await City.update(data , {
             //     where : {
             //         id : cityId
             //     }
@@ -41,10 +42,25 @@ class CityRepository{
             throw {error};
         }
     }
+
     async getCity(cityId){
         try {
-            const city = await City.findByPk(cityId);
+            const city = await City.findOne({
+                where: {
+                    id: cityId
+                }
+            });
             return city;
+        } catch (error) {
+            console.log(error);
+            throw {error};
+        }
+    }
+
+    async getAllCities(){
+        try {
+            const cities = await City.findAll();
+            return cities;
         } catch (error) {
             console.log(error);
             throw {error};
